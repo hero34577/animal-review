@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Review</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #animal-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .animal-card {
+            width: 200px;
+            margin: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .animal-image {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .animal-title {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .animal-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+        }
+
+        .rate-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Animal Review</h1>
+</header>
+
+<div id="animal-list"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchData();
+    });
+
+    function fetchData() {
+        // Replace with your API endpoint
+        fetch('https://jsonplaceholder.typicode.com/photos?_limit=6')
+            .then(response => response.json())
+            .then(animals => displayAnimals(animals))
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function displayAnimals(animals) {
+        const animalList = document.getElementById('animal-list');
+
+        animals.forEach(animal => {
+            const animalCard = document.createElement('div');
+            animalCard.classList.add('animal-card');
+
+            const animalImage = document.createElement('img');
+            animalImage.src = animal.url;
+            animalImage.alt = animal.title;
+            animalImage.classList.add('animal-image');
+
+            const animalTitle = document.createElement('div');
+            animalTitle.textContent = animal.title;
+            animalTitle.classList.add('animal-title');
+
+            const animalRating = document.createElement('div');
+            animalRating.textContent = `Rating: ${Math.floor(Math.random() * 5) + 1}`;
+            animalRating.classList.add('animal-rating');
+
+            const rateButton = document.createElement('button');
+            rateButton.textContent = 'Rate';
+            rateButton.classList.add('rate-button');
+            rateButton.addEventListener('click', () => rateAnimal(animal));
+
+            animalCard.appendChild(animalImage);
+            animalCard.appendChild(animalTitle);
+            animalCard.appendChild(animalRating);
+            animalCard.appendChild(rateButton);
+
+            animalList.appendChild(animalCard);
+        });
+    }
+
+    function rateAnimal(animal) {
+        // In a real application, you would send a rating to the server and update the UI accordingly.
+        alert(`You rated ${animal.title}!`);
+    }
+</script>
+
+</body>
+</html>
